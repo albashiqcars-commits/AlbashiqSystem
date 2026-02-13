@@ -9,7 +9,7 @@
 
 <body>
 
-<header>شركة الباشق لتشغيل سيارات الاجرة</header>
+<header>شركة الباشق لتشغيل سيارات الاجرة - نظام الحسابات</header>
 
 <div class="container" id="loginDiv">
     <h3>تسجيل الدخول</h3>
@@ -32,7 +32,24 @@
 <input type="number" id="officePercentage" placeholder="نسبة المكتب %">
 <button onclick="addCar()">إضافة السيارة</button>
 
-<h3>قائمة السيارات</h3>
+<hr>
+
+<h3>إضافة مصروف لكل سيارة</h3>
+<select id="expenseCarSelect"></select>
+<input type="text" id="expenseDescription" placeholder="وصف المصروف">
+<input type="number" id="expenseAmount" placeholder="المبلغ">
+<button onclick="addCarExpense()">إضافة المصروف</button>
+
+<hr>
+
+<h3>إضافة مصروف عام للمكتب</h3>
+<input type="text" id="officeExpenseDescription" placeholder="وصف المصروف">
+<input type="number" id="officeExpenseAmount" placeholder="المبلغ">
+<button onclick="addOfficeExpense()">إضافة مصروف المكتب</button>
+
+<hr>
+
+<h3>ملخص السيارات</h3>
 <table id="carsTable">
 <tr>
 <th>الاسم</th>
@@ -44,62 +61,26 @@
 <th>نهاية</th>
 <th>% المالك</th>
 <th>% المكتب</th>
+<th>إجمالي الدخل</th>
+<th>مصروف السيارة</th>
+<th>صافي المالك</th>
+<th>صافي المكتب</th>
 </tr>
 </table>
 
-</div>
+<hr>
 
-<script src="https://www.gstatic.com/firebasejs/9.20.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.20.0/firebase-firestore-compat.js"></script>
-<script src="app.js"></script>
-
-</body>
-</html><!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>نظام الباشق لتشغيل سيارات الاجرة</title>
-<link rel="stylesheet" href="style.css">
-</head>
-
-<body>
-
-<header>شركة الباشق لتشغيل سيارات الاجرة</header>
-
-<div class="container" id="loginDiv">
-    <h3>تسجيل الدخول</h3>
-    <input type="text" id="username" placeholder="اسم المستخدم">
-    <input type="password" id="password" placeholder="كلمة المرور">
-    <button onclick="login()">دخول</button>
-</div>
-
-<div class="container" id="systemDiv" style="display:none">
-
-<h3>إضافة سيارة</h3>
-<input type="text" id="carName" placeholder="اسم السيارة">
-<input type="text" id="carNumber" placeholder="رقم السيارة">
-<input type="text" id="carType" placeholder="نوع السيارة">
-<input type="text" id="ownerName" placeholder="اسم المالك">
-<input type="number" id="dailyPayment" placeholder="سعر التسديد اليومي">
-<input type="date" id="startDate">
-<input type="date" id="endDate">
-<input type="number" id="ownerPercentage" placeholder="نسبة المالك %">
-<input type="number" id="officePercentage" placeholder="نسبة المكتب %">
-<button onclick="addCar()">إضافة السيارة</button>
-
-<h3>قائمة السيارات</h3>
-<table id="carsTable">
+<h3>ملخص المكتب العام</h3>
+<table id="officeTable">
 <tr>
-<th>الاسم</th>
-<th>الرقم</th>
-<th>النوع</th>
-<th>المالك</th>
-<th>اليومي</th>
-<th>بداية</th>
-<th>نهاية</th>
-<th>% المالك</th>
-<th>% المكتب</th>
+<th>إجمالي دخل المكتب من السيارات</th>
+<th>مصاريف المكتب العامة</th>
+<th>صافي المكتب</th>
+</tr>
+<tr>
+<td id="totalOfficeIncome">0</td>
+<td id="totalOfficeExpenses">0</td>
+<td id="netOffice">0</td>
 </tr>
 </table>
 

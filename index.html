@@ -15,7 +15,10 @@
 <div class="container" id="loginDiv">
     <h3>تسجيل الدخول</h3>
     <input type="text" id="username" placeholder="اسم المستخدم">
-    <input type="password" id="password" placeholder="كلمة المرور">
+    <div style="position:relative;">
+        <input type="password" id="password" placeholder="كلمة المرور">
+        <button id="togglePassword" onclick="togglePassword()" style="position:absolute;top:0;right:0;height:100%;width:80px;">اظهار</button>
+    </div>
     <button onclick="login()">دخول</button>
 </div>
 

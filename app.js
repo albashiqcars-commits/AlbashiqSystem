@@ -16,12 +16,25 @@ function login(){
     const user = document.getElementById("username").value;
     const pass = document.getElementById("password").value;
 
-    if(user === "admin" && pass === "albashiq2002"){
+    if(user === "admin" && pass === "123456"){
         document.getElementById("loginDiv").style.display="none";
         document.getElementById("systemDiv").style.display="block";
         loadCars();
     }else{
         alert("بيانات الدخول غير صحيحة");
+    }
+}
+
+// ----- إظهار كلمة المرور -----
+function togglePassword(){
+    const pw = document.getElementById("password");
+    const btn = document.getElementById("togglePassword");
+    if(pw.type === "password"){
+        pw.type = "text";
+        btn.innerText = "اخفاء";
+    } else{
+        pw.type = "password";
+        btn.innerText = "اظهار";
     }
 }
 
@@ -108,7 +121,7 @@ async function loadCars(){
         });
 
         // إجمالي الدخل وصافي الحسابات
-        let totalIncome = car.dailyPayment * 1; // يمكن تعديل الأيام لاحقًا
+        let totalIncome = car.dailyPayment * 1;
         let netOwner = totalIncome - totalCarExpenses - car.monthlyDeduction;
         let netOffice = car.monthlyDeduction;
         totalOfficeIncome += netOffice;
@@ -139,4 +152,13 @@ async function loadCars(){
     let officeExpensesSnap = await db.collection("officeExpenses").get();
     let totalOfficeExpenses = 0;
     let officeExpenseDetails = "";
-    officeExpensesSnap.forEach(exp =>
+    officeExpensesSnap.forEach(exp => {
+        totalOfficeExpenses += exp.data().amount;
+        officeExpenseDetails += `${exp.data().description}: ${exp.data().amount} | `;
+    });
+
+    document.getElementById("totalOfficeIncome").innerText = totalOfficeIncome;
+    document.getElementById("totalOfficeExpenses").innerText = totalOfficeExpenses;
+    document.getElementById("netOffice").innerText = totalOfficeIncome - totalOfficeExpenses;
+    document.getElementById("officeExpenseDetails").innerText = officeExpenseDetails;
+}

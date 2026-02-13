@@ -1,4 +1,3 @@
-// Firebase setup
 const firebaseConfig = {
   apiKey: "AIzaSyAjxlRr_Ij1shphaL2mOaY1HDUqM6BcYUc",
   authDomain: "al-bashaq-system.firebaseapp.com",
@@ -11,12 +10,10 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-// --- UI Sections ---
 function showCars(){ document.getElementById("carsSection").style.display="block"; document.getElementById("archiveSection").style.display="none"; document.getElementById("expensesSection").style.display="none"; }
 function showArchive(){ document.getElementById("carsSection").style.display="none"; document.getElementById("archiveSection").style.display="block"; document.getElementById("expensesSection").style.display="none"; }
 function showExpenses(){ document.getElementById("carsSection").style.display="none"; document.getElementById("archiveSection").style.display="none"; document.getElementById("expensesSection").style.display="block"; }
 
-// --- تسجيل الدخول ---
 function login(){
     const user = document.getElementById("username").value;
     const pass = document.getElementById("password").value;
@@ -24,16 +21,13 @@ function login(){
     else alert("بيانات الدخول غير صحيحة");
 }
 
-// --- كلمة المرور ---
 function togglePassword(){ const pw = document.getElementById("password"); const btn=document.getElementById("togglePassword"); if(pw.type==="password"){ pw.type="text"; btn.innerText="اخفاء"; } else{ pw.type="password"; btn.innerText="اظهار";}}
 
-// --- إضافة سيارة ---
 function addCar(){ 
     const car={name:document.getElementById("driverName").value, number:document.getElementById("carNumber").value, type:document.getElementById("carType").value, owner:document.getElementById("ownerName").value, dailyPayment:Number(document.getElementById("dailyPayment").value), monthlyDeduction:Number(document.getElementById("monthlyDeduction").value), startDate:document.getElementById("startDate").value, endDate:document.getElementById("endDate").value, expenses:[], dailyPayments:[]};
     db.collection("cars").doc(car.number).set(car).then(()=>{ alert("تم إضافة السيارة"); loadCars();});
 }
 
-// --- تسجيل الدفع اليومي ---
 function recordDailyPayment(){
     const carNumber = document.getElementById("paymentCarSelect").value;
     const amount = Number(document.getElementById("paidToday").value);
@@ -46,7 +40,6 @@ function recordDailyPayment(){
     });
 }
 
-// --- إضافة مصروف سيارة ---
 function addCarExpense(){
     const carNumber = document.getElementById("expenseCarSelect").value;
     const desc = document.getElementById("expenseDescription").value;
@@ -60,7 +53,6 @@ function addCarExpense(){
     });
 }
 
-// --- إضافة مصروف المكتب ---
 let officeExpenses=[];
 function addOfficeExpense(){
     const desc = document.getElementById("officeExpenseDescription").value;
@@ -69,11 +61,10 @@ function addOfficeExpense(){
     updateOfficeSummary();
 }
 
-// --- تحديث ملخص المكتب ---
 function updateOfficeSummary(){
     let totalIncome = 0;
     db.collection("cars").get().then(snapshot=>{
-        snapshot.forEach(doc=>{ let car = doc.data(); totalIncome+=car.dailyPayment*30; }); // تقريباً دخل شهري
+        snapshot.forEach(doc=>{ let car = doc.data(); totalIncome+=car.dailyPayment*30; }); 
         let totalExpenses = officeExpenses.reduce((a,b)=>a+b.amount,0);
         document.getElementById("totalOfficeIncome").innerText=totalIncome;
         document.getElementById("totalOfficeExpenses").innerText=totalExpenses;
@@ -82,7 +73,6 @@ function updateOfficeSummary(){
     });
 }
 
-// --- تحميل السيارات ---
 function loadCars(){
     const carsTable = document.getElementById("carsTable");
     const carSelect = document.getElementById("paymentCarSelect");
@@ -110,5 +100,4 @@ function loadCars(){
     });
 }
 
-// --- حذف سيارة ---
 function deleteCar(num){ if(confirm("هل تريد حذف السيارة؟")){ db.collection("cars").doc(num).delete().then(()=>{ alert("تم الحذف"); loadCars(); }); }}

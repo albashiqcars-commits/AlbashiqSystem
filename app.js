@@ -94,7 +94,7 @@ async function loadCars(){
 <th>الاسم</th><th>الرقم</th><th>النوع</th><th>المالك</th><th>اليومي</th>
 <th>بداية</th><th>نهاية</th><th>الاستقطاع الشهري</th>
 <th>إجمالي الدخل</th><th>مصروف السيارة</th><th>صافي المالك</th>
-<th>صافي المكتب</th><th>تفاصيل المصاريف</th><th>إنذار العقد</th>
+<th>صافي المكتب</th><th>تفاصيل المصاريف</th><th>إنذار العقد</th><th>خيارات</th>
 </tr>
 `;
 
@@ -146,6 +146,23 @@ async function loadCars(){
         row.insertCell(11).innerText = netOffice;
         row.insertCell(12).innerText = carExpenseDetails;
         row.insertCell(13).innerHTML = `<span class="alert">${alertMsg}</span>`;
+
+        // خيارات تعديل وحذف
+        let optionsCell = row.insertCell(14);
+        let editBtn = document.createElement("button");
+        editBtn.innerText = "تعديل";
+        editBtn.onclick = () => alert("ميزة التعديل سيتم إضافتها لاحقًا");
+        optionsCell.appendChild(editBtn);
+
+        let deleteBtn = document.createElement("button");
+        deleteBtn.innerText = "حذف";
+        deleteBtn.onclick = async () => {
+            if(confirm("هل تريد حذف هذه السيارة؟")){
+                await db.collection("cars").doc(carNumber).delete();
+                loadCars();
+            }
+        };
+        optionsCell.appendChild(deleteBtn);
     }
 
     // مصروفات المكتب العام

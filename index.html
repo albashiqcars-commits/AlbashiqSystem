@@ -9,22 +9,22 @@
 </head>
 
 <body>
-
-<header>شركة الباشق لتشغيل سيارات الأجرة - نظام الحسابات</header>
+<header>شركة الباشق لتشغيل سيارات الأجرة</header>
 
 <div class="container" id="loginDiv">
     <h3>تسجيل الدخول</h3>
     <input type="text" id="username" placeholder="اسم المستخدم">
     <div style="position:relative;">
         <input type="password" id="password" placeholder="كلمة المرور">
-        <button id="togglePassword" onclick="togglePassword()" style="position:absolute;top:0;right:0;height:100%;width:80px;">اظهار</button>
+        <!-- زر كلمة المرور على الجهة اليسرى -->
+        <button id="togglePassword" onclick="togglePassword()" style="position:absolute;top:0;left:0;height:100px;width:80px;">اظهار</button>
     </div>
     <button onclick="login()">دخول</button>
 </div>
 
 <div class="container" id="systemDiv" style="display:none">
 
-<h3>إضافة سيارة</h3>
+<h3>إدارة السيارات</h3>
 <input type="text" id="carName" placeholder="اسم السيارة">
 <input type="text" id="carNumber" placeholder="رقم السيارة">
 <input type="text" id="carType" placeholder="نوع السيارة">
@@ -58,7 +58,7 @@
 <th>الاسم</th><th>الرقم</th><th>النوع</th><th>المالك</th><th>اليومي</th>
 <th>بداية</th><th>نهاية</th><th>الاستقطاع الشهري</th>
 <th>إجمالي الدخل</th><th>مصروف السيارة</th><th>صافي المالك</th>
-<th>صافي المكتب</th><th>تفاصيل المصاريف</th><th>إنذار العقد</th>
+<th>صافي المكتب</th><th>تفاصيل المصاريف</th><th>إنذار العقد</th><th>خيارات</th>
 </tr>
 </table>
 

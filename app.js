@@ -33,10 +33,9 @@ function addCar(){
         type: document.getElementById("carType").value,
         owner: document.getElementById("ownerName").value,
         dailyPayment: Number(document.getElementById("dailyPayment").value),
+        monthlyDeduction: Number(document.getElementById("monthlyDeduction").value),
         startDate: document.getElementById("startDate").value,
-        endDate: document.getElementById("endDate").value,
-        ownerPercentage: Number(document.getElementById("ownerPercentage").value),
-        officePercentage: Number(document.getElementById("officePercentage").value)
+        endDate: document.getElementById("endDate").value
     };
 
     db.collection("cars").doc(car.number).set(car).then(()=>{
@@ -74,14 +73,15 @@ function addOfficeExpense(){
     });
 }
 
-// ----- تحميل السيارات والمصروفات -----
+// ----- تحميل السيارات والمصروفات + إنذار العقد -----
 async function loadCars(){
     const table = document.getElementById("carsTable");
     table.innerHTML = `
 <tr>
 <th>الاسم</th><th>الرقم</th><th>النوع</th><th>المالك</th><th>اليومي</th>
-<th>بداية</th><th>نهاية</th><th>% المالك</th><th>% المكتب</th>
-<th>إجمالي الدخل</th><th>مصروف السيارة</th><th>صافي المالك</th><th>صافي المكتب</th>
+<th>بداية</th><th>نهاية</th><th>الاستقطاع الشهري</th>
+<th>إجمالي الدخل</th><th>مصروف السيارة</th><th>صافي المالك</th>
+<th>صافي المكتب</th><th>تفاصيل المصاريف</th><th>إنذار العقد</th>
 </tr>
 `;
 
@@ -91,25 +91,32 @@ async function loadCars(){
     let totalOfficeIncome = 0;
 
     const snapshot = await db.collection("cars").get();
+    const today = new Date();
+
     for(const doc of snapshot.docs){
         const car = doc.data();
         const carNumber = car.number;
         expenseSelect.innerHTML += `<option value="${carNumber}">${car.name} (${car.number})</option>`;
 
-        // حساب مصروفات السيارة
+        // مصروفات السيارة
         let carExpensesSnap = await db.collection("cars").doc(carNumber).collection("expenses").get();
         let totalCarExpenses = 0;
-        carExpensesSnap.forEach(exp => totalCarExpenses += exp.data().amount);
+        let carExpenseDetails = "";
+        carExpensesSnap.forEach(exp => {
+            totalCarExpenses += exp.data().amount;
+            carExpenseDetails += `${exp.data().description}: ${exp.data().amount} | `;
+        });
 
-        // إجمالي الدخل
+        // إجمالي الدخل وصافي الحسابات
         let totalIncome = car.dailyPayment * 1; // يمكن تعديل الأيام لاحقًا
-        let ownerShare = totalIncome * car.ownerPercentage / 100;
-        let officeShare = totalIncome * car.officePercentage / 100;
+        let netOwner = totalIncome - totalCarExpenses - car.monthlyDeduction;
+        let netOffice = car.monthlyDeduction;
+        totalOfficeIncome += netOffice;
 
-        totalOfficeIncome += officeShare;
-
-        const netOwner = ownerShare - totalCarExpenses;
-        const netOffice = officeShare;
+        // حساب إنذار العقد
+        let endDate = new Date(car.endDate);
+        let diffDays = Math.floor((endDate - today)/(1000*60*60*24));
+        let alertMsg = diffDays <=10 ? "⚠️ سينتهي العقد قريبًا" : "";
 
         const row = table.insertRow();
         row.insertCell(0).innerText = car.name;
@@ -119,20 +126,17 @@ async function loadCars(){
         row.insertCell(4).innerText = car.dailyPayment;
         row.insertCell(5).innerText = car.startDate;
         row.insertCell(6).innerText = car.endDate;
-        row.insertCell(7).innerText = car.ownerPercentage;
-        row.insertCell(8).innerText = car.officePercentage;
-        row.insertCell(9).innerText = totalIncome;
-        row.insertCell(10).innerText = totalCarExpenses;
-        row.insertCell(11).innerText = netOwner;
-        row.insertCell(12).innerText = netOffice;
+        row.insertCell(7).innerText = car.monthlyDeduction;
+        row.insertCell(8).innerText = totalIncome;
+        row.insertCell(9).innerText = totalCarExpenses;
+        row.insertCell(10).innerText = netOwner;
+        row.insertCell(11).innerText = netOffice;
+        row.insertCell(12).innerText = carExpenseDetails;
+        row.insertCell(13).innerHTML = `<span class="alert">${alertMsg}</span>`;
     }
 
-    // حساب مصروفات المكتب العام
+    // مصروفات المكتب العام
     let officeExpensesSnap = await db.collection("officeExpenses").get();
     let totalOfficeExpenses = 0;
-    officeExpensesSnap.forEach(exp => totalOfficeExpenses += exp.data().amount);
-
-    document.getElementById("totalOfficeIncome").innerText = totalOfficeIncome;
-    document.getElementById("totalOfficeExpenses").innerText = totalOfficeExpenses;
-    document.getElementById("netOffice").innerText = totalOfficeIncome - totalOfficeExpenses;
-}
+    let officeExpenseDetails = "";
+    officeExpensesSnap.forEach(exp =>

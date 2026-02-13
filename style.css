@@ -8,23 +8,28 @@ body{
 header{
     background: linear-gradient(45deg, #ff7a00, #ffd700);
     color:white;
-    padding:15px;
+    padding:20px;
     text-align:center;
-    font-size:28px;
-    font-weight:bold;
-    text-shadow: 1px 1px #000;
+    font-size:32px;
+    font-weight:900;
+    text-shadow: 2px 2px #000;
 }
 .container{
     background: rgba(255,255,255,0.95);
-    padding:15px;
+    padding:20px;
     margin:10px auto;
-    border-radius:10px;
+    border-radius:12px;
+}
+.toolbar{
+    display:flex;
+    justify-content:space-around;
+    margin-bottom:15px;
 }
 input, select{
     width:100%;
-    padding:10px;
-    margin:5px 0;
-    border-radius:8px;
+    padding:12px;
+    margin:6px 0;
+    border-radius:10px;
     border:1px solid #ccc;
     font-weight:bold;
 }
@@ -32,13 +37,13 @@ button{
     background: linear-gradient(45deg, #ff7a00, #ffd700);
     color:white;
     border:none;
-    padding:10px;
+    padding:12px;
     width:100%;
-    margin-top:10px;
+    margin-top:8px;
     cursor:pointer;
     font-weight:bold;
-    border-radius:8px;
-    transition: 0.3s;
+    border-radius:10px;
+    transition:0.3s;
 }
 button:hover{
     transform: scale(1.05);
@@ -50,20 +55,20 @@ table{
     margin-top:15px;
 }
 th,td{
-    border:1px solid #ddd;
-    padding:8px;
+    border:2px solid #fff;
+    padding:10px;
     text-align:center;
     font-weight:bold;
 }
 th{
-    background: linear-gradient(45deg, #ff7a00, #ffa500);
+    background:#ff7a00;
     color:white;
 }
 tr:nth-child(even){
-    background: rgba(255,255,255,0.8);
+    background: rgba(255,0,0,0.1); /* معلومات المركبة أحمر */
 }
 tr:nth-child(odd){
-    background: rgba(255,255,255,0.6);
+    background: rgba(0,128,0,0.1); /* مصروف المركبة أخضر */
 }
 .alert{
     color:red;

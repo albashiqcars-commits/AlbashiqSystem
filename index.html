@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>نظام الباشق لتشغيل سيارات الاجرة</title>
 <link rel="stylesheet" href="style.css">
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@900&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -16,16 +16,22 @@
     <input type="text" id="username" placeholder="اسم المستخدم">
     <div style="position:relative;">
         <input type="password" id="password" placeholder="كلمة المرور">
-        <!-- زر كلمة المرور على الجهة اليسرى -->
-        <button id="togglePassword" onclick="togglePassword()" style="position:absolute;top:0;left:0;height:100px;width:80px;">اظهار</button>
+        <button id="togglePassword" onclick="togglePassword()" style="position:absolute;top:0;left:0;height:100%;width:80px;">اظهار</button>
     </div>
     <button onclick="login()">دخول</button>
 </div>
 
 <div class="container" id="systemDiv" style="display:none">
 
+<div class="toolbar">
+    <button onclick="showCars()">السيارات</button>
+    <button onclick="showArchive()">الأرشيف</button>
+    <button onclick="showExpenses()">المصروفات</button>
+</div>
+
+<div id="carsSection">
 <h3>إدارة السيارات</h3>
-<input type="text" id="carName" placeholder="اسم السيارة">
+<input type="text" id="driverName" placeholder="اسم السائق">
 <input type="text" id="carNumber" placeholder="رقم السيارة">
 <input type="text" id="carType" placeholder="نوع السيارة">
 <input type="text" id="ownerName" placeholder="اسم المالك">
@@ -37,30 +43,44 @@
 
 <hr>
 
-<h3>إضافة مصروف لكل سيارة</h3>
-<select id="expenseCarSelect"></select>
-<input type="text" id="expenseDescription" placeholder="سبب المصروف">
-<input type="number" id="expenseAmount" placeholder="المبلغ">
-<button onclick="addCarExpense()">إضافة المصروف</button>
-
-<hr>
-
-<h3>إضافة مصروف عام للمكتب</h3>
-<input type="text" id="officeExpenseDescription" placeholder="سبب المصروف">
-<input type="number" id="officeExpenseAmount" placeholder="المبلغ">
-<button onclick="addOfficeExpense()">إضافة مصروف المكتب</button>
+<h3>تسجيل تسديد يومي للسائق</h3>
+<select id="paymentCarSelect"></select>
+<input type="number" id="paidToday" placeholder="المبلغ الذي دفعه اليوم">
+<button onclick="recordDailyPayment()">تسجيل الدفع اليومي</button>
 
 <hr>
 
 <h3>ملخص السيارات</h3>
 <table id="carsTable">
 <tr>
-<th>الاسم</th><th>الرقم</th><th>النوع</th><th>المالك</th><th>اليومي</th>
+<th>اسم السائق</th><th>الرقم</th><th>النوع</th><th>المالك</th><th>اليومي</th>
 <th>بداية</th><th>نهاية</th><th>الاستقطاع الشهري</th>
-<th>إجمالي الدخل</th><th>مصروف السيارة</th><th>صافي المالك</th>
-<th>صافي المكتب</th><th>تفاصيل المصاريف</th><th>إنذار العقد</th><th>خيارات</th>
+<th>إجمالي الدخل الشهري</th><th>مصروف المركبة</th><th>المتبقي من التسديد</th>
+<th>صافي المالك</th><th>صافي المكتب</th><th>تفاصيل المصاريف</th><th>إنذار العقد</th><th>خيارات</th>
 </tr>
 </table>
+</div>
+
+<div id="archiveSection" style="display:none">
+<h3>الأرشيف</h3>
+<table id="archiveTable">
+<tr>
+<th>اسم السائق</th><th>رقم السيارة</th><th>المالك</th><th>نوع السيارة</th><th>تاريخ نهاية العقد</th><th>صافي المالك</th>
+</tr>
+</table>
+</div>
+
+<div id="expensesSection" style="display:none">
+<h3>إضافة مصروف لكل سيارة</h3>
+<select id="expenseCarSelect"></select>
+<input type="text" id="expenseDescription" placeholder="سبب المصروف">
+<input type="number" id="expenseAmount" placeholder="المبلغ">
+<button onclick="addCarExpense()">إضافة المصروف</button>
+
+<h3>إضافة مصروف عام للمكتب</h3>
+<input type="text" id="officeExpenseDescription" placeholder="سبب المصروف">
+<input type="number" id="officeExpenseAmount" placeholder="المبلغ">
+<button onclick="addOfficeExpense()">إضافة مصروف المكتب</button>
 
 <hr>
 
@@ -79,6 +99,7 @@
 <td id="officeExpenseDetails"></td>
 </tr>
 </table>
+</div>
 
 <script src="https://www.gstatic.com/firebasejs/9.20.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.20.0/firebase-firestore-compat.js"></script>

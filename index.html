@@ -3,20 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>نظام الباشق لتشغيل سيارات الاجرة</title>
+<title>مكتب الباشق لتشغيل المركبات</title>
 <link rel="stylesheet" href="style.css">
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@900&display=swap" rel="stylesheet">
 </head>
-
 <body>
-<header>شركة الباشق لتشغيل سيارات الأجرة</header>
+
+<header>مكتب الباشق لتشغيل المركبات</header>
 
 <div class="container" id="loginDiv">
     <h3>تسجيل الدخول</h3>
     <input type="text" id="username" placeholder="اسم المستخدم">
-    <div style="position:relative;">
+    <div class="password-wrapper">
         <input type="password" id="password" placeholder="كلمة المرور">
-        <button id="togglePassword" onclick="togglePassword()" style="position:absolute;top:0;left:0;height:100%;width:80px;">اظهار</button>
+        <button id="togglePassword" onclick="togglePassword()">اظهار</button>
     </div>
     <button onclick="login()">دخول</button>
 </div>
@@ -43,7 +43,7 @@
 
 <hr>
 
-<h3>تسجيل تسديد يومي للسائق</h3>
+<h3>تسجيل التسديد اليومي للسائق</h3>
 <select id="paymentCarSelect"></select>
 <input type="number" id="paidToday" placeholder="المبلغ الذي دفعه اليوم">
 <button onclick="recordDailyPayment()">تسجيل الدفع اليومي</button>
@@ -53,10 +53,12 @@
 <h3>ملخص السيارات</h3>
 <table id="carsTable">
 <tr>
-<th>اسم السائق</th><th>الرقم</th><th>النوع</th><th>المالك</th><th>اليومي</th>
-<th>بداية</th><th>نهاية</th><th>الاستقطاع الشهري</th>
-<th>إجمالي الدخل الشهري</th><th>مصروف المركبة</th><th>المتبقي من التسديد</th>
-<th>صافي المالك</th><th>صافي المكتب</th><th>تفاصيل المصاريف</th><th>إنذار العقد</th><th>خيارات</th>
+<th>اسم السائق</th><th>الرقم</th><th>النوع</th><th>المالك</th>
+<th>اليومي</th><th>بداية العقد</th><th>نهاية العقد</th>
+<th>الاستقطاع الشهري</th><th>إجمالي الدخل الشهري</th>
+<th>مصروف المركبة</th><th>المتبقي</th>
+<th>صافي المالك</th><th>صافي المكتب</th>
+<th>تفاصيل المصاريف</th><th>إنذار العقد</th><th>خيارات</th>
 </tr>
 </table>
 </div>
@@ -65,7 +67,8 @@
 <h3>الأرشيف</h3>
 <table id="archiveTable">
 <tr>
-<th>اسم السائق</th><th>رقم السيارة</th><th>المالك</th><th>نوع السيارة</th><th>تاريخ نهاية العقد</th><th>صافي المالك</th>
+<th>اسم السائق</th><th>رقم السيارة</th><th>المالك</th><th>نوع السيارة</th>
+<th>تاريخ نهاية العقد</th><th>صافي المالك</th>
 </tr>
 </table>
 </div>
@@ -87,10 +90,10 @@
 <h3>ملخص المكتب العام</h3>
 <table id="officeTable">
 <tr>
-<th>إجمالي دخل المكتب من السيارات</th>
-<th>مصاريف المكتب العامة</th>
+<th>إجمالي دخل المكتب</th>
+<th>مصاريف المكتب</th>
 <th>صافي المكتب</th>
-<th>تفاصيل مصاريف المكتب</th>
+<th>تفاصيل المصاريف</th>
 </tr>
 <tr>
 <td id="totalOfficeIncome">0</td>

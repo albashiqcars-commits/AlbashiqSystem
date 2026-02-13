@@ -6,13 +6,13 @@ body{
     margin:0;
 }
 header{
-    background: linear-gradient(45deg, #ff7a00, #ffd700);
+    background: linear-gradient(45deg, #ff0000, #ff7a00, #ffff00);
     color:white;
     padding:20px;
     text-align:center;
-    font-size:32px;
+    font-size:36px;
     font-weight:900;
-    text-shadow: 2px 2px #000;
+    text-shadow: 2px 2px #fff;
 }
 .container{
     background: rgba(255,255,255,0.95);
@@ -34,7 +34,7 @@ input, select{
     font-weight:bold;
 }
 button{
-    background: linear-gradient(45deg, #ff7a00, #ffd700);
+    background: linear-gradient(45deg, #ff0000, #ff7a00, #ffff00);
     color:white;
     border:none;
     padding:12px;
@@ -64,13 +64,25 @@ th{
     background:#ff7a00;
     color:white;
 }
-tr:nth-child(even){
-    background: rgba(255,0,0,0.1); /* معلومات المركبة أحمر */
+tr.carmInfo{
+    background: rgba(255,0,0,0.2); /* معلومات المركبة أحمر */
 }
-tr:nth-child(odd){
-    background: rgba(0,128,0,0.1); /* مصروف المركبة أخضر */
+tr.carExpense{
+    background: rgba(0,128,0,0.2); /* مصروف المركبة أخضر غامق */
 }
-.alert{
-    color:red;
-    font-weight:bold;
+tr.officeExpense{
+    background: rgba(255,165,0,0.2); /* مصروف المكتب برتقالي */
+}
+tr.totalRow{
+    background: rgba(255,255,0,0.3); /* المجموع النهائي أصفر */
+}
+.password-wrapper{
+    position:relative;
+}
+.password-wrapper button{
+    position:absolute;
+    top:0;
+    left:0;
+    height:100%;
+    width:80px;
 }

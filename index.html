@@ -9,48 +9,66 @@
 <body>
 
 <header>
-    <h1>مكتب الباشق لتشغيل المركبات</h1>
+  <h1>مكتب الباشق لتشغيل المركبات</h1>
+  <nav>
+    <button onclick="showSection('cars')">إدارة المركبات</button>
+    <button onclick="showSection('office')">حسابات المكتب</button>
+    <button onclick="showSection('archive')">الأرشيف</button>
+  </nav>
 </header>
 
 <div class="container">
 
+<!-- إدارة المركبات -->
+<div id="carsSection">
+
 <h2>إضافة مركبة</h2>
-
 <form id="carForm">
-    <input type="hidden" id="carId">
-
-    <label>اسم السائق</label>
-    <input type="text" id="driverName" required>
-
-    <label>رقم المركبة</label>
-    <input type="text" id="carNumber" required>
-
-    <label>التسديد اليومي المطلوب</label>
-    <input type="number" id="dailyAmount" required>
-
-    <label>تاريخ بداية العقد</label>
-    <input type="date" id="startDate" required>
-
-    <label>تاريخ نهاية العقد</label>
-    <input type="date" id="endDate" required>
-
-    <button type="submit">حفظ المركبة</button>
+<input type="hidden" id="carId">
+<input type="text" id="driverName" placeholder="اسم السائق" required>
+<input type="text" id="carNumber" placeholder="رقم المركبة" required>
+<input type="number" id="dailyAmount" placeholder="التسديد اليومي" required>
+<input type="number" id="monthlyDeduction" placeholder="الاستقطاع الشهري" required>
+<input type="date" id="startDate" required>
+<input type="date" id="endDate" required>
+<button type="submit">حفظ</button>
 </form>
-
-<hr>
 
 <h2>قائمة المركبات</h2>
 <table>
-    <thead>
-        <tr>
-            <th>اسم السائق</th>
-            <th>رقم المركبة</th>
-            <th>المتبقي</th>
-            <th>إجراءات</th>
-        </tr>
-    </thead>
-    <tbody id="carTable"></tbody>
+<thead>
+<tr>
+<th>السائق</th>
+<th>المركبة</th>
+<th>المطلوب</th>
+<th>دفع اليوم</th>
+<th>إجراءات</th>
+</tr>
+</thead>
+<tbody id="carTable"></tbody>
 </table>
+
+</div>
+
+<!-- حسابات المكتب -->
+<div id="officeSection" style="display:none;">
+<h2>مصاريف المكتب</h2>
+<input type="text" id="officeExpenseName" placeholder="تفاصيل المصروف">
+<input type="number" id="officeExpenseAmount" placeholder="المبلغ">
+<button onclick="addOfficeExpense()">إضافة</button>
+
+<ul id="officeExpenseList"></ul>
+
+<h2>ملخص الحسابات</h2>
+<p id="ownerNet"></p>
+<p id="officeNet"></p>
+</div>
+
+<!-- الأرشيف -->
+<div id="archiveSection" style="display:none;">
+<h2>المركبات المنتهية</h2>
+<ul id="archiveList"></ul>
+</div>
 
 </div>
 

@@ -1,72 +1,126 @@
-body {
-    background-color: black;
-    color: white;
-    font-family: "Cairo", sans-serif;
-    direction: rtl;
+let cars = JSON.parse(localStorage.getItem("cars")) || [];
+let officeExpenses = JSON.parse(localStorage.getItem("officeExpenses")) || [];
+
+function saveAll(){
+localStorage.setItem("cars",JSON.stringify(cars));
+localStorage.setItem("officeExpenses",JSON.stringify(officeExpenses));
 }
 
-header {
-    background: linear-gradient(45deg, red, orange, yellow);
-    padding: 15px;
-    text-align: center;
-    font-size: 26px;
-    font-weight: bold;
-    border-bottom: 4px solid orange;
+function showSection(section){
+document.getElementById("carsSection").style.display="none";
+document.getElementById("officeSection").style.display="none";
+document.getElementById("archiveSection").style.display="none";
+document.getElementById(section+"Section").style.display="block";
 }
 
-.container {
-    padding: 20px;
+document.getElementById("carForm").addEventListener("submit",function(e){
+e.preventDefault();
+
+let id=document.getElementById("carId").value;
+let car={
+driver:driverName.value,
+number:carNumber.value,
+daily:Number(dailyAmount.value),
+monthly:Number(monthlyDeduction.value),
+start:startDate.value,
+end:endDate.value,
+remaining:0,
+expenses:[],
+payments:[]
+};
+
+if(id===""){
+cars.push(car);
+}else{
+cars[id]=car;
 }
 
-h2 {
-    color: orange;
+saveAll();
+renderCars();
+this.reset();
+});
+
+function renderCars(){
+let table=document.getElementById("carTable");
+let archive=document.getElementById("archiveList");
+table.innerHTML="";
+archive.innerHTML="";
+let today=new Date();
+
+cars.forEach((car,i)=>{
+let endDate=new Date(car.end);
+
+if(endDate<today){
+archive.innerHTML+=`<li>${car.driver} - ${car.number}</li>`;
+return;
 }
 
-label {
-    display: block;
-    margin-top: 10px;
+let diff=(endDate-today)/(1000*60*60*24);
+let alertMsg= diff<=10 ? "⚠️ قريب الانتهاء" : "";
+
+table.innerHTML+=`
+<tr>
+<td>${car.driver} ${alertMsg}</td>
+<td>${car.number}</td>
+<td>${car.remaining}</td>
+<td>
+<input type="number" id="pay${i}" placeholder="المبلغ">
+<button onclick="pay(${i})">دفع</button>
+</td>
+<td>
+<button onclick="deleteCar(${i})">حذف</button>
+</td>
+</tr>`;
+});
+
+calculateTotals();
 }
 
-input {
-    width: 100%;
-    padding: 8px;
-    margin-top: 5px;
-    border-radius: 5px;
-    border: none;
+function pay(i){
+let amount=Number(document.getElementById("pay"+i).value);
+let car=cars[i];
+car.remaining += car.daily - amount;
+saveAll();
+renderCars();
 }
 
-button {
-    background-color: orange;
-    color: black;
-    font-weight: bold;
-    padding: 10px;
-    border: none;
-    margin-top: 15px;
-    cursor: pointer;
-    border-radius: 5px;
+function deleteCar(i){
+cars.splice(i,1);
+saveAll();
+renderCars();
 }
 
-button:hover {
-    background-color: red;
-    color: white;
+function addOfficeExpense(){
+let name=officeExpenseName.value;
+let amount=Number(officeExpenseAmount.value);
+officeExpenses.push({name,amount});
+saveAll();
+renderOffice();
 }
 
-table {
-    width: 100%;
-    margin-top: 20px;
-    border-collapse: collapse;
+function renderOffice(){
+let list=document.getElementById("officeExpenseList");
+list.innerHTML="";
+officeExpenses.forEach(e=>{
+list.innerHTML+=`<li>${e.name} - ${e.amount}</li>`;
+});
+calculateTotals();
 }
 
-th {
-    background-color: orange;
-    color: black;
+function calculateTotals(){
+let owner=0;
+let office=0;
+
+cars.forEach(c=>{
+owner+=c.remaining - c.monthly;
+office+=c.monthly;
+});
+
+officeExpenses.forEach(e=>office-=e.amount);
+
+ownerNet.innerText="صافي المالك: "+owner;
+officeNet.innerText="صافي المكتب: "+office;
 }
 
-td {
-    border: 1px solid red;
-    padding: 8px;
-    text-align: center;
-    color: red;
-    font-weight: bold;
-    text-shadow: 1px 1px 2px white;
-}
+renderCars();
+renderOffice();

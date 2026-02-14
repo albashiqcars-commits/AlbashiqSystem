@@ -1,95 +1,72 @@
-body{
-    font-family: 'Cairo', sans-serif;
-    background-color:#000;
-    color: #fff;
-    margin:0;
+body {
+    background-color: black;
+    color: white;
+    font-family: "Cairo", sans-serif;
+    direction: rtl;
 }
-header{
-    display:flex;
-    align-items:center;
-    background: #111;
-    color:white;
-    padding:20px;
-    font-size:32px;
-    font-weight:900;
-    text-shadow: 2px 2px #fff;
+
+header {
+    background: linear-gradient(45deg, red, orange, yellow);
+    padding: 15px;
+    text-align: center;
+    font-size: 26px;
+    font-weight: bold;
+    border-bottom: 4px solid orange;
 }
-.header-img{
-    width:80px;
-    height:50px;
-    margin-left:15px;
-    border-radius:8px;
+
+.container {
+    padding: 20px;
 }
-.container{
-    background: rgba(0,0,0,0.85);
-    padding:20px;
-    margin:10px auto;
-    border-radius:12px;
+
+h2 {
+    color: orange;
 }
-.toolbar{
-    display:flex;
-    justify-content:space-around;
-    margin-bottom:15px;
+
+label {
+    display: block;
+    margin-top: 10px;
 }
-input, select{
-    width:100%;
-    padding:12px;
-    margin:6px 0;
-    border-radius:10px;
-    border:1px solid #fff;
-    font-weight:bold;
-    color:#000;
+
+input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border-radius: 5px;
+    border: none;
 }
-button{
-    background: linear-gradient(45deg, #ff0000, #ff7a00, #ffff00);
-    color:white;
-    border:none;
-    padding:12px;
-    width:100%;
-    margin-top:8px;
-    cursor:pointer;
-    font-weight:bold;
-    border-radius:10px;
-    transition:0.3s;
+
+button {
+    background-color: orange;
+    color: black;
+    font-weight: bold;
+    padding: 10px;
+    border: none;
+    margin-top: 15px;
+    cursor: pointer;
+    border-radius: 5px;
 }
-button:hover{
-    transform: scale(1.05);
-    opacity:0.95;
+
+button:hover {
+    background-color: red;
+    color: white;
 }
-table{
-    width:100%;
-    border-collapse:collapse;
-    margin-top:15px;
+
+table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
 }
-th,td{
-    border:2px solid #fff;
-    padding:10px;
-    text-align:center;
-    font-weight:bold;
+
+th {
+    background-color: orange;
+    color: black;
 }
-th{
-    background:#ff7a00;
-    color:white;
-}
-tr.carmInfo{
-    background: rgba(255,0,0,0.2); /* معلومات المركبة أحمر */
-}
-tr.carExpense{
-    background: rgba(0,128,0,0.2); /* مصروف المركبة أخضر */
-}
-tr.officeExpense{
-    background: rgba(255,165,0,0.2); /* مصروف المكتب برتقالي */
-}
-tr.totalRow{
-    background: rgba(255,255,0,0.3); /* المجموع النهائي أصفر */
-}
-.password-wrapper{
-    position:relative;
-}
-.password-wrapper button{
-    position:absolute;
-    top:0;
-    left:0;
-    height:100%;
-    width:80px;
+
+td {
+    border: 1px solid red;
+    padding: 8px;
+    text-align: center;
+    color: red;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px white;
 }

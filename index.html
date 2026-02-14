@@ -1,116 +1,59 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>مكتب الباشق لتشغيل المركبات</title>
 <link rel="stylesheet" href="style.css">
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@900&display=swap" rel="stylesheet">
 </head>
 <body>
 
 <header>
-    <img src="https://images.unsplash.com/photo-1600180758895-8b74aeb8b147?auto=format&fit=crop&w=1350&q=80" alt="مركبات أجرة" class="header-img">
-    <span>مكتب الباشق لتشغيل المركبات</span>
+    <h1>مكتب الباشق لتشغيل المركبات</h1>
 </header>
 
-<div class="container" id="loginDiv">
-    <h3>تسجيل الدخول</h3>
-    <input type="text" id="username" placeholder="اسم المستخدم">
-    <div class="password-wrapper">
-        <input type="password" id="password" placeholder="كلمة المرور">
-        <button id="togglePassword" onclick="togglePassword()">اظهار</button>
-    </div>
-    <button onclick="login()">دخول</button>
-</div>
+<div class="container">
 
-<div class="container" id="systemDiv" style="display:none">
+<h2>إضافة مركبة</h2>
 
-<div class="toolbar">
-    <button onclick="showCars()">السيارات</button>
-    <button onclick="showArchive()">الأرشيف</button>
-    <button onclick="showExpenses()">المصروفات</button>
-</div>
+<form id="carForm">
+    <input type="hidden" id="carId">
 
-<div id="carsSection">
-<h3>إدارة السيارات</h3>
-<input type="text" id="driverName" placeholder="اسم السائق">
-<input type="text" id="carNumber" placeholder="رقم السيارة">
-<input type="text" id="carType" placeholder="نوع السيارة">
-<input type="text" id="ownerName" placeholder="اسم المالك">
-<input type="number" id="dailyPayment" placeholder="سعر التسديد اليومي">
-<input type="number" id="monthlyDeduction" placeholder="مبلغ الاستقطاع الشهري">
-<input type="date" id="startDate">
-<input type="date" id="endDate">
-<button onclick="addCar()">إضافة السيارة</button>
+    <label>اسم السائق</label>
+    <input type="text" id="driverName" required>
+
+    <label>رقم المركبة</label>
+    <input type="text" id="carNumber" required>
+
+    <label>التسديد اليومي المطلوب</label>
+    <input type="number" id="dailyAmount" required>
+
+    <label>تاريخ بداية العقد</label>
+    <input type="date" id="startDate" required>
+
+    <label>تاريخ نهاية العقد</label>
+    <input type="date" id="endDate" required>
+
+    <button type="submit">حفظ المركبة</button>
+</form>
 
 <hr>
 
-<h3>تسجيل التسديد اليومي للسائق</h3>
-<select id="paymentCarSelect"></select>
-<input type="number" id="paidToday" placeholder="المبلغ الذي دفعه اليوم">
-<button onclick="recordDailyPayment()">تسجيل الدفع اليومي</button>
-
-<hr>
-
-<h3>ملخص السيارات</h3>
-<table id="carsTable">
-<tr>
-<th>اسم السائق</th><th>الرقم</th><th>النوع</th><th>المالك</th>
-<th>اليومي</th><th>بداية العقد</th><th>نهاية العقد</th>
-<th>الاستقطاع الشهري</th><th>إجمالي الدخل الشهري</th>
-<th>مصروف المركبة</th><th>المتبقي</th>
-<th>صافي المالك</th><th>صافي المكتب</th>
-<th>تفاصيل المصاريف</th><th>إنذار العقد</th><th>خيارات</th>
-</tr>
+<h2>قائمة المركبات</h2>
+<table>
+    <thead>
+        <tr>
+            <th>اسم السائق</th>
+            <th>رقم المركبة</th>
+            <th>المتبقي</th>
+            <th>إجراءات</th>
+        </tr>
+    </thead>
+    <tbody id="carTable"></tbody>
 </table>
-</div>
-
-<div id="archiveSection" style="display:none">
-<h3>الأرشيف</h3>
-<table id="archiveTable">
-<tr>
-<th>اسم السائق</th><th>رقم السيارة</th><th>المالك</th><th>نوع السيارة</th>
-<th>تاريخ نهاية العقد</th><th>صافي المالك</th>
-</tr>
-</table>
-</div>
-
-<div id="expensesSection" style="display:none">
-<h3>إضافة مصروف لكل سيارة</h3>
-<select id="expenseCarSelect"></select>
-<input type="text" id="expenseDescription" placeholder="سبب المصروف">
-<input type="number" id="expenseAmount" placeholder="المبلغ">
-<button onclick="addCarExpense()">إضافة المصروف</button>
-
-<h3>إضافة مصروف عام للمكتب</h3>
-<input type="text" id="officeExpenseDescription" placeholder="سبب المصروف">
-<input type="number" id="officeExpenseAmount" placeholder="المبلغ">
-<button onclick="addOfficeExpense()">إضافة مصروف المكتب</button>
-
-<hr>
-
-<h3>ملخص المكتب العام</h3>
-<table id="officeTable">
-<tr>
-<th>إجمالي دخل المكتب</th>
-<th>مصاريف المكتب</th>
-<th>صافي المكتب</th>
-<th>تفاصيل المصاريف</th>
-</tr>
-<tr>
-<td id="totalOfficeIncome">0</td>
-<td id="totalOfficeExpenses">0</td>
-<td id="netOffice">0</td>
-<td id="officeExpenseDetails"></td>
-</tr>
-</table>
-</div>
-
-<script src="https://www.gstatic.com/firebasejs/9.20.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.20.0/firebase-firestore-compat.js"></script>
-<script src="app.js"></script>
 
 </div>
+
+<script src="script.js"></script>
 </body>
 </html>
